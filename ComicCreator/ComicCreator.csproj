@@ -136,6 +136,8 @@
     <Content Include="Content\css\customprop.css" />
     <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\css\popupcontext.css" />
+    <Content Include="Content\img\dialog1.png" />
+    <Content Include="Content\img\dialog2.png" />
     <Content Include="Content\img\imgpeople1.png" />
     <Content Include="Content\img\imgpeople2.png" />
     <Content Include="Content\img\scene1.jpg" />

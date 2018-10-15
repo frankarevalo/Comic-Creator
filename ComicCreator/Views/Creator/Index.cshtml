@@ -42,14 +42,26 @@
     .createdImgDivStyle
     {
         width: 20%; 
-        height: 40%; 
+        height: 40% auto; 
         position: absolute; 
         top: 40%; 
         left: 10%; 
         z-index: 1;
     }
 
-    .createdImgDivStyle:hover
+    .createdDialogDivStyle
+    {
+        width: 40%; 
+        height: 30%; 
+        border: 1px solid black;
+        position: absolute; 
+        top: 40%; 
+        left: 10%; 
+        text-align: center;
+        z-index: 1;
+    }
+
+    .createdImgDivStyle:hover, .createdDialogDivStyle:hover
     {
         cursor: move;
     }
@@ -144,7 +156,7 @@
         popup.classList.toggle("show");
     }
 
-    function AddImage(e)
+    function AddPeople(e)
     {
         var src = $(e).find('img').attr('src');
         var name = $(e).find('img').attr('name');
@@ -157,7 +169,6 @@
         var ddiv = document.createElement("div");
         ddiv.setAttribute("id", nDivId);
         ddiv.setAttribute("class", "createdImgDivStyle");
-        ddiv.setAttribute("onclick", "");
 
         // create img
         var dimg = document.createElement("img");
@@ -172,47 +183,47 @@
         $("#" + nDivId).draggable();
     }
 
-    function AddHelper(e)
+    function AddDialog(e)
     {
+        var src = $(e).find('img').attr('src');
+        var name = $(e).find('img').attr('name');
+        var imgid = $(e).find('img').attr('id');
+        var divholder = document.getElementById("dh" + name);
+        var nTxtId = "txt" + imgid + "_" + name;
+        var nImgId = "img" + imgid + "_" + name;
+        var nDivId = "div_" + imgid + "_" + name;
+
+        // create div first
+        var ddiv = document.createElement("div");
+        ddiv.setAttribute("id", nDivId);
+        ddiv.setAttribute("class", "createdDialogDivStyle");
         
+        // create img
+        var dimg = document.createElement("img");
+        dimg.setAttribute("id", nImgId);
+        dimg.setAttribute("src", src);
+        dimg.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; position: absolute;");
+
+        // create textbox
+        var dtxt = document.createElement("textarea");
+        dtxt.setAttribute("id", nTxtId);
+        dtxt.setAttribute("style", "border: 1px solid black; width: 60%; height: auto; top: 20%; overflow: hidden; position: relative;");
+        dtxt.addEventListener("keydown", textareaAutosize(dtxt, ddiv));
+
+        ddiv.append(dimg);
+        ddiv.append(dtxt);
+        divholder.append(ddiv);
+
+        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true });
+        $("#" + nDivId).draggable();
     }
 
+    function textareaAutosize(t, d) {
+        var txt = t;
+        var div = d;
+        //txt.css({ "height": txt.scrollHeight + "px" });
+        //div.css({ "height": txt.scrollHeight + "px" });
+    }
+
+
 </script>
-
-@*<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>jQuery UI Resizable - Default functionality</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <style>
-        #resizable {
-            width: 150px;
-            height: 150px;
-            padding: 0.5em;
-        }
-
-            #resizable h3 {
-                text-align: center;
-                margin: 0;
-            }
-    </style>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function () {
-            $("#resizable").resizable();
-        });
-    </script>
-</head>
-<body>
-
-    <div id="resizable" class="ui-widget-content">
-        <h3 class="ui-widget-header">Resizable</h3>
-    </div>
-
-
-</body>
-</html>*@
