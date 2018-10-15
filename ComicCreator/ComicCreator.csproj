@@ -143,6 +143,7 @@
     <Content Include="Content\js\bootstrap.bundle.min.js" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\draggable.js" />
     <Content Include="Content\js\jquery-1.12.4.js" />
     <Content Include="Content\js\jquery-ui.js" />
     <Content Include="Content\js\jquery.min.js" />
