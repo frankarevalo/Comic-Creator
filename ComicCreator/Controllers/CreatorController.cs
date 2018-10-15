@@ -14,9 +14,7 @@ namespace ComicCreator.Controllers
 {
     public class CreatorController : Controller
     {
-        //
-        // GET: /Creator/
-
+        
         public ActionResult Index(int scenarioID)
         {
             Creator creator = new Creator();
