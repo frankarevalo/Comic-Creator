@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Comic Creator";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+<h2>Welcome to Comic Creator</h2>
+
+<div class="row">
+    <div class="col border">
+        <br /><br /><br />
+        <img src="#" alt="Image Here" class="col" />
+        <br /><br /><br />
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4>Want to create your own comics?</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4>Choose a scenario</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col border">
+            <br /><br />
+            <a href="@Url.Action("Index", "Creator", new { scenarioID = 1 })">
+                <img src="#" alt="Scenario 1" class="col" />
+            </a>
+            <br /><br />
+        </div>
+        <div class="col border">
+            <br /><br />
+            <a href="@Url.Action("Index", "Creator", new { scenarioID = 2 })">
+                <img src="#" alt="Scenario 2" class="col" />
+            </a>
+            <br /><br />
+        </div>
+        <div class="col border">
+            <br /><br />
+            <a href="@Url.Action("Index", "Creator", new { scenarioID = 3 })">
+                <img src="#" alt="Scenario 3" class="col" />
+            </a>
+            <br /><br />
+        </div>
+    </div>
+</div>
+

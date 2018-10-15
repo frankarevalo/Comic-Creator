@@ -1,0 +1,26 @@
+﻿.pnlimage
+{
+    width:100%;
+    height: 400px;
+    border: 3px solid red;
+    z-index: -20;
+}
+
+.pnl
+{
+    z-index: 40;
+}
+
+.dmDivHolder
+{
+    width: 100%; 
+    overflow: hidden;
+    z-index: -20;
+}
+
+.imgContext
+{
+    width: 60px; 
+    height: 60px;
+    border: 1px solid black;
+}

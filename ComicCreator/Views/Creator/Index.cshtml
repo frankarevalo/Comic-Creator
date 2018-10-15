@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+@using ComicCreator.Models;
+@model Creator
+
+@section head
+{
+    <link href="../Content/css/customprop.css" rel="stylesheet" />
+    <link href="../Content/css/popupcontext.css" rel="stylesheet" />
+    <link href="../Content/css/jquery-ui.css" rel="stylesheet" />
+    <script src="../Content/js/jquery-1.12.4.js"></script>
+    <script src="../Content/js/jquery-ui.js"></script>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>@Model.scenarioName.Trim()</h2>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col">
+            <button class="btn-primary">Add Panel</button>
+        </div>
+        <div class="col">
+            <button class="btn-primary">Publish/Print</button>
+        </div>
+    </div>
+    <br />
+    <div class="container-fluid">
+        @(new HtmlString(@Model.htmlDefaultPanel))
+    </div>
+    
+</div>
+
+<br />
+<br />
+<br />
+
+<script>
+
+    function PopupMenu(e)
+    {
+        var btn = $(e).find('div').attr('id');
+        var popup = document.getElementById(btn);
+        popup.classList.toggle("show");
+    }
+
+    function AddImage(e)
+    {
+        var src = $(e).find('img').attr('src');
+        var divholder = document.getElementById("dh1");
+        var tid = "imgc1"
+        var dimg = document.createElement("img");
+        dimg.setAttribute("src", src);
+        dimg.setAttribute("id", tid);
+        dimg.setAttribute("style", "width: 80px; height: 80px; z-index: 1; position: absolute; top: 50%; left: 20%;");
+        divholder.appendChild(dimg);
+
+        $("#" + tid).resizable();
+    }
+
+</script>
+
+@*<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Resizable - Default functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        #resizable {
+            width: 150px;
+            height: 150px;
+            padding: 0.5em;
+        }
+
+            #resizable h3 {
+                text-align: center;
+                margin: 0;
+            }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#resizable").resizable();
+        });
+    </script>
+</head>
+<body>
+
+    <div id="resizable" class="ui-widget-content">
+        <h3 class="ui-widget-header">Resizable</h3>
+    </div>
+
+
+</body>
+</html>*@
