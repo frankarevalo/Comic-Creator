@@ -14,13 +14,21 @@ namespace ComicCreator.Controllers
 {
     public class CreatorController : Controller
     {
-        
-        public ActionResult Index(int scenarioID)
+        public ActionResult Index(int scenarioID, int panelCount)
         {
             Creator creator = new Creator();
             creator.scenarioID = scenarioID;
             creator.scenarioName = GetScenarioName(scenarioID);
             creator.htmlDefaultPanel = GetDefaultPanel(scenarioID);
+            return View(creator);
+        }
+
+        [ActionName("PanelCount")]
+        public ActionResult SelectPanel(int scenarioID)
+        {
+            Creator creator = new Creator();
+            creator.scenarioID = scenarioID;
+            creator.scenarioName = GetScenarioName(scenarioID);
             return View(creator);
         }
 

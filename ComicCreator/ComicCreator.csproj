@@ -116,7 +116,6 @@
   <ItemGroup>
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
-    <Compile Include="Controllers\SamplesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,7 +190,7 @@
     <Content Include="Views\Creator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Samples\Index.cshtml" />
+    <Content Include="Views\Creator\PanelCount.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

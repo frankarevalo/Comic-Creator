@@ -18,6 +18,13 @@ namespace ComicCreator
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Index", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "SelectPanel",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "CreatorController", action = "SelectPanel", id = UrlParameter.Optional }
+            );
+
         }
     }
 }
