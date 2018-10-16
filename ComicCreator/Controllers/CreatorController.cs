@@ -19,7 +19,7 @@ namespace ComicCreator.Controllers
             Creator creator = new Creator();
             creator.scenarioID = scenarioID;
             creator.scenarioName = GetScenarioName(scenarioID);
-            creator.htmlDefaultPanel = GetDefaultPanel(scenarioID);
+            creator.htmlDefaultPanel = GetDefaultPanel(scenarioID, (panelCount > 4) ? 4 : panelCount);
             return View(creator);
         }
 
@@ -112,7 +112,7 @@ namespace ComicCreator.Controllers
         #region "Dynamic Creation of Controls"
         
         [NonAction]
-        public string GetDefaultPanel(int scenarioID)
+        public string GetDefaultPanel(int scenarioID, int panelCount)
         {
             // default panel count = 2
 
@@ -120,144 +120,175 @@ namespace ComicCreator.Controllers
 
             using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
             {
-
-                // row main
-                writer.AddAttribute(HtmlTextWriterAttribute.Class, "row");
-                writer.AddAttribute(HtmlTextWriterAttribute.Id, "pnlsrow");
-                writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                for (int p = 1; p <= 2; p++)
+                int rowCount = 1;
+                if (panelCount > 2)
                 {
-                    // panel 
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "col pnl");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "pnl" + p);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                    
-                    // div holder 
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "dmDivHolder");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "dh" + p);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                    // image background 
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "pnlimage");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "imgpnlback" + scenarioID);
-                    writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioUrlImage(scenarioID, p));
-                    writer.RenderBeginTag(HtmlTextWriterTag.Img);
-
-                    writer.RenderEndTag(); // end for image background 
-                    writer.RenderEndTag(); // end for div holder 
-
-                    // for buttons :: Add People, Add Dialog and Delete Panel
-
-                    // row for btns
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "row");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "rowforbtn" + p);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                    #region "add people button"
-
-                    // add people
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "col popup btn-dark");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_p_" + p);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                    writer.Write("Add People");
-
-                    // add people : popup
-                    // row
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "row popuptext");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_p_row" + p);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                    // get total count of image
-                    int TotalImageCount = GetScenarioPeopleImageContextCount(scenarioID);
-
-                    for (int i = 1; i <= TotalImageCount; i++)
-                    {
-                        // div
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddPeople(this)");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_p_div" + i.ToString().Trim());
-                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                        // image
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "imgContext");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddPeople(this)");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_p_" + i.ToString().Trim());
-                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                        writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioPeopleImageContextUrl(scenarioID, i));
-                        writer.RenderBeginTag(HtmlTextWriterTag.Img);
-
-                        writer.RenderEndTag(); // end for image
-                        writer.RenderEndTag(); // end for div
-                    }
-
-                    writer.RenderEndTag(); // end for row
-                    writer.RenderEndTag(); // end for add people div
-
-                    #endregion
-
-                    #region "add dialog button"
-
-                    // add dialog
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "col popup btn-dark");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_d_" + p);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                    writer.Write("Add Dialog");
-
-                    // add dialog : popup
-                    // row
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "row popuptext");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_d_row" + p);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                    // get total count of image
-                    TotalImageCount = GetScenarioDialogImageContextCount(scenarioID);
-
-                    for (int i = 1; i <= TotalImageCount; i++)
-                    {
-                        // div
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddDialog(this)");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_d_div" + i.ToString().Trim());
-                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                        // image
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "imgContext");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddDialog(this)");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_d_" + i.ToString().Trim());
-                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                        writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioDialogImageContextUrl(scenarioID, i));
-                        writer.RenderBeginTag(HtmlTextWriterTag.Img);
-
-                        writer.RenderEndTag(); // end for image
-                        writer.RenderEndTag(); // end for div
-                    }
-
-                    writer.RenderEndTag(); // end for row
-                    writer.RenderEndTag(); // end for add dialog div
-
-                    #endregion
-
-                    writer.RenderEndTag(); // end for row for btns
-                    writer.RenderEndTag(); // end for panel 
+                    rowCount = 2;
                 }
 
-                writer.RenderEndTag(); // end for row main
+                int p = 1;
+                for (int r = 1; r <= rowCount; r++)
+                {
+                    // row main
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "row");
+                    writer.AddAttribute(HtmlTextWriterAttribute.Id, "pnlsrow_div" + r);
+                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                    
+                    for (int l = 1; l <= 2; l++)
+                    {
+                        // panel 
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col pnl");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "pnl" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
+                        // div holder 
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "dmDivHolder");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "dh" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        // image background 
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "pnlimage");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "imgpnlback" + scenarioID);
+                        writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioUrlImage(scenarioID, 1));
+                        writer.RenderBeginTag(HtmlTextWriterTag.Img);
+
+                        writer.RenderEndTag(); // end for image background 
+                        writer.RenderEndTag(); // end for div holder 
+
+                        // for buttons :: Add People, Add Dialog and Delete Panel
+
+                        // row for btns
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "rowforbtn" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        #region "add people button"
+
+                        // add people
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_p_" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        writer.Write("Add People");
+
+                        // add people : popup
+                        // row
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row popuptext");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_p_row" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        // get total count of image
+                        int TotalImageCount = GetScenarioPeopleImageContextCount(scenarioID);
+
+                        for (int i = 1; i <= TotalImageCount; i++)
+                        {
+                            // div
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, "col");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddPeople(this)");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_p_div" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                            // image
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, "imgContext");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddPeople(this)");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_p_" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioPeopleImageContextUrl(scenarioID, i));
+                            writer.RenderBeginTag(HtmlTextWriterTag.Img);
+
+                            writer.RenderEndTag(); // end for image
+                            writer.RenderEndTag(); // end for div
+                        }
+
+                        writer.RenderEndTag(); // end for row
+                        writer.RenderEndTag(); // end for add people div
+
+                        #endregion
+
+                        #region "add dialog button"
+
+                        // add dialog
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_d_" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        writer.Write("Add Dialog");
+
+                        // add dialog : popup
+                        // row
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row popuptext");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_d_row" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        // get total count of image
+                        TotalImageCount = GetScenarioDialogImageContextCount(scenarioID);
+
+                        for (int i = 1; i <= TotalImageCount; i++)
+                        {
+                            // div
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, "col");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddDialog(this)");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_d_div" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                            // image
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, "imgContext");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddDialog(this)");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_d_" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioDialogImageContextUrl(scenarioID, i));
+                            writer.RenderBeginTag(HtmlTextWriterTag.Img);
+
+                            writer.RenderEndTag(); // end for image
+                            writer.RenderEndTag(); // end for div
+                        }
+
+                        writer.RenderEndTag(); // end for row
+                        writer.RenderEndTag(); // end for add dialog div
+
+                        #endregion
+
+                        writer.RenderEndTag(); // end for row for btns
+                        writer.RenderEndTag(); // end for panel 
+
+                        p += 1;
+
+                        if (p > panelCount)
+                        {
+                            if (panelCount == 1 || panelCount == 3)
+                            { 
+                                // panel
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, "col");
+                                writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                                writer.AddAttribute(HtmlTextWriterAttribute.Id, "pnl" + p);
+                                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                                writer.RenderEndTag(); // end for panel 
+                            }
+
+                            break;
+                        }
+                    }
+
+                    writer.RenderEndTag(); // end for row main
+
+                    if ((r + 1) <= rowCount)
+                    {
+                        writer.RenderBeginTag(HtmlTextWriterTag.Br);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Br);
+                    }   
+                }
             }
 
             return stringWriter.ToString();
