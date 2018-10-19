@@ -7,8 +7,6 @@
 @model Creator
 
 <link href="../Content/css/jquery-ui.css" rel="stylesheet" />
-<script src="../Content/js/jquery-1.12.4.js"></script>
-<script src="../Content/js/jquery-ui.js"></script>
 
 <style type="text/css">
 
@@ -174,8 +172,8 @@
         ddiv.append(dimg);
         divholder.append(ddiv);
 
-        $("#" + nDivId).resizable({ aspectRatio:true, autohide:true, animate:true });
-        $("#" + nDivId).draggable();
+        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 300, maxWidth: 300, minHeight: 120, minWidth: 120 });
+        $("#" + nDivId).draggable({ containment: divholder });
     }
 
     function AddDialog(e)
@@ -199,26 +197,31 @@
         dimg.setAttribute("src", src);
         dimg.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; position: absolute;");
 
-        // create textbox
+        // create textarea
         var dtxt = document.createElement("textarea");
         dtxt.setAttribute("id", nTxtId);
+        dtxt.setAttribute("maxlength", "30");
         dtxt.setAttribute("style", "border: 1px solid black; width: 60%; height: auto; top: 20%; overflow: hidden; position: relative;");
-        dtxt.addEventListener("keydown", textareaAutosize(dtxt, ddiv));
+        dtxt.addEventListener("keydown", textareaAutosize(dtxt));
 
         ddiv.append(dimg);
         ddiv.append(dtxt);
         divholder.append(ddiv);
 
-        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true });
-        $("#" + nDivId).draggable();
+        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 400, maxWidth: 400, minHeight: 120, minWidth: 120 });
+        $("#" + nDivId).draggable({ containment: divholder });
+        $("#" + nTxtId).autogrow();
     }
 
-    function textareaAutosize(t, d) {
-        var txt = t;
-        var div = d;
+    function textareaAutosize(t) {
+        //alert($(e).find('img').attr('name'));
+        //t.height(this.scrollHeight);
         //txt.css({ "height": txt.scrollHeight + "px" });
         //div.css({ "height": txt.scrollHeight + "px" });
     }
 
 
 </script>
+
+<script src="../Content/js/jquery-1.12.4.js"></script>
+<script src="../Content/js/jquery-ui.js"></script>
