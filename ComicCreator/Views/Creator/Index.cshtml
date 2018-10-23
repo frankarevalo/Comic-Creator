@@ -49,19 +49,51 @@
 
     .createdDialogDivStyle
     {
-        width: 40%; 
-        height: 30%; 
-        border: 1px solid black;
+        background: white;
+        border: 3px solid black;
+        border-radius: 10px;
+        padding: 15px;
+        width: auto; 
+        height: auto;
+        min-width: 30%;
+        min-height: 30%;
+        max-height: 50%;
+        max-width: 50%;
         position: absolute; 
         top: 40%; 
         left: 10%; 
         text-align: center;
         z-index: 1;
+        margin: 0;
     }
 
     .createdImgDivStyle:hover, .createdDialogDivStyle:hover
     {
         cursor: move;
+    }
+
+    .dynamicImgDialog
+    {
+        position: absolute;
+        top: -100px; 
+        left: -200px;
+        width: 210%; 
+        height: 210%; 
+    }
+
+    .dynamicTxtAreaStyle
+    {
+        position: relative;
+        top: 0;
+        margin: 0;
+        border: none; 
+        resize: none; 
+        width: 100%; 
+        outline: none; 
+        height: 100% auto;
+        max-height: 100px;
+        overflow: hidden; 
+        font-size: 0.9em;
     }
 
     .ui-resizable-helper{
@@ -195,25 +227,26 @@
         var dimg = document.createElement("img");
         dimg.setAttribute("id", nImgId);
         dimg.setAttribute("src", src);
-        dimg.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; position: absolute;");
+        dimg.setAttribute("class", "dynamicImgDialog");
 
         // create textarea
         var dtxt = document.createElement("textarea");
         dtxt.setAttribute("id", nTxtId);
-        dtxt.setAttribute("maxlength", "30");
-        dtxt.setAttribute("style", "border: 1px solid black; width: 60%; height: auto; top: 20%; overflow: hidden; position: relative;");
-        dtxt.addEventListener("keydown", textareaAutosize(dtxt));
+        //dtxt.setAttribute("maxlength", "50");
+        dtxt.setAttribute("class", "dynamicTxtAreaStyle");
+        //dtxt.addEventListener("keydown", textareaAutosize(dtxt));
 
-        ddiv.append(dimg);
+        //ddiv.append(dimg);
         ddiv.append(dtxt);
         divholder.append(ddiv);
 
-        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 400, maxWidth: 400, minHeight: 120, minWidth: 120 });
+        $("#" + nDivId).resizable({ autohide: true, animate: true });
         $("#" + nDivId).draggable({ containment: divholder });
-        $("#" + nTxtId).autogrow();
+        $("#" + nTxtId).autogrow({vertical: true, horizontal: false});
     }
 
     function textareaAutosize(t) {
+        //alert(t.scrollHeight);
         //alert($(e).find('img').attr('name'));
         //t.height(this.scrollHeight);
         //txt.css({ "height": txt.scrollHeight + "px" });
@@ -225,3 +258,4 @@
 
 <script src="../Content/js/jquery-1.12.4.js"></script>
 <script src="../Content/js/jquery-ui.js"></script>
+<script src="../Content/js/jquery.ns-autogrow.min.js"></script>

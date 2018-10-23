@@ -149,6 +149,7 @@
     <Content Include="Content\js\jquery-1.12.4.js" />
     <Content Include="Content\js\jquery-ui.js" />
     <Content Include="Content\js\jquery.min.js" />
+    <Content Include="Content\js\jquery.ns-autogrow.min.js" />
     <Content Include="Content\js\popper.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
