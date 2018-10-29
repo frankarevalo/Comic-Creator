@@ -139,6 +139,16 @@
     <Content Include="Content\img\dialog2.png" />
     <Content Include="Content\img\imgpeople1.png" />
     <Content Include="Content\img\imgpeople2.png" />
+    <Content Include="Content\img\leftdialog-pointer.png" />
+    <Content Include="Content\img\leftdialog.png" />
+    <Content Include="Content\img\middialog-pointer.png" />
+    <Content Include="Content\img\middialog.png" />
+    <Content Include="Content\img\midleftdialog-pointer.png" />
+    <Content Include="Content\img\midleftdialog.png" />
+    <Content Include="Content\img\midrightdialog-pointer.png" />
+    <Content Include="Content\img\midrightdialog.png" />
+    <Content Include="Content\img\rightdialog-pointer.png" />
+    <Content Include="Content\img\rightdialog.png" />
     <Content Include="Content\img\scene1.jpg" />
     <Content Include="Content\img\scene2.jpg" />
     <Content Include="Content\js\bootstrap.bundle.js" />

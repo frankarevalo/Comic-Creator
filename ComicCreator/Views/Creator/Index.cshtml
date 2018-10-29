@@ -51,7 +51,7 @@
     {
         background: white;
         border: 3px solid black;
-        border-radius: 10px;
+        border-radius: 20px;
         padding: 15px;
         width: auto; 
         height: auto;
@@ -91,9 +91,9 @@
         width: 100%; 
         outline: none; 
         height: 100% auto;
-        max-height: 100px;
+        max-height: 200px;
         overflow: hidden; 
-        font-size: 0.9em;
+        font-size: 1em;
     }
 
     .ui-resizable-helper{
@@ -190,22 +190,28 @@
         var nImgId = imgid + "_" + name;
         var nDivId = "div_" + imgid + "_" + name;
 
-        // create div first
-        var ddiv = document.createElement("div");
-        ddiv.setAttribute("id", nDivId);
-        ddiv.setAttribute("class", "createdImgDivStyle");
+        // check if img already exist
+        var checkImgId = document.getElementById(nImgId);
+        if (checkImgId) {
+            alert("Person Already Used!");
+        } else {
+            // create div first
+            var ddiv = document.createElement("div");
+            ddiv.setAttribute("id", nDivId);
+            ddiv.setAttribute("class", "createdImgDivStyle");
 
-        // create img
-        var dimg = document.createElement("img");
-        dimg.setAttribute("src", src);
-        dimg.setAttribute("id", nImgId);
-        dimg.setAttribute("style", "width: 100%; height: 100%;");
+            // create img
+            var dimg = document.createElement("img");
+            dimg.setAttribute("src", src);
+            dimg.setAttribute("id", nImgId);
+            dimg.setAttribute("style", "width: 100%; height: 100%;");
 
-        ddiv.append(dimg);
-        divholder.append(ddiv);
+            ddiv.append(dimg);
+            divholder.append(ddiv);
 
-        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 300, maxWidth: 300, minHeight: 120, minWidth: 120 });
-        $("#" + nDivId).draggable({ containment: divholder });
+            $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 300, maxWidth: 300, minHeight: 120, minWidth: 120 });
+            $("#" + nDivId).draggable({ containment: divholder });
+        }
     }
 
     function AddDialog(e)
@@ -214,9 +220,11 @@
         var name = $(e).find('img').attr('name');
         var imgid = $(e).find('img').attr('id');
         var divholder = document.getElementById("dh" + name);
-        var nTxtId = "txt" + imgid + "_" + name;
-        var nImgId = "img" + imgid + "_" + name;
-        var nDivId = "div_" + imgid + "_" + name;
+        var nTxtId = "txt_d" + "_" + name;
+        var nDivId = "div_d" + "_" + name;
+
+        // check if id exist, if exist add increment to id
+
 
         // create div first
         var ddiv = document.createElement("div");
@@ -232,7 +240,7 @@
         // create textarea
         var dtxt = document.createElement("textarea");
         dtxt.setAttribute("id", nTxtId);
-        //dtxt.setAttribute("maxlength", "50");
+        dtxt.setAttribute("maxlength", "100");
         dtxt.setAttribute("class", "dynamicTxtAreaStyle");
         //dtxt.addEventListener("keydown", textareaAutosize(dtxt));
 
