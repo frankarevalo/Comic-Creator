@@ -22,6 +22,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -133,12 +135,15 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\customprop.css" />
+    <Content Include="Content\css\CustomStyles.css" />
     <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\css\popupcontext.css" />
+    <Content Include="Content\img\ComicCreator-logo.png" />
     <Content Include="Content\img\dialog1.png" />
     <Content Include="Content\img\dialog2.png" />
     <Content Include="Content\img\imgpeople1.png" />
     <Content Include="Content\img\imgpeople2.png" />
+<<<<<<< HEAD
     <Content Include="Content\img\leftdialog-pointer.png" />
     <Content Include="Content\img\leftdialog.png" />
     <Content Include="Content\img\middialog-pointer.png" />
@@ -149,6 +154,11 @@
     <Content Include="Content\img\midrightdialog.png" />
     <Content Include="Content\img\rightdialog-pointer.png" />
     <Content Include="Content\img\rightdialog.png" />
+=======
+    <Content Include="Content\img\scenarios\classroom.jpg" />
+    <Content Include="Content\img\scenarios\garden.jpg" />
+    <Content Include="Content\img\scenarios\mall.jpg" />
+>>>>>>> 3b43df68e7e5b65ba7cdb5c2dc86a2c3bc28c843
     <Content Include="Content\img\scene1.jpg" />
     <Content Include="Content\img\scene2.jpg" />
     <Content Include="Content\js\bootstrap.bundle.js" />
@@ -232,6 +242,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

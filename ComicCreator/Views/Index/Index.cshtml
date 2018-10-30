@@ -3,48 +3,64 @@
     Layout = "~/Views/Shared/_Main.cshtml";
 }
 
-<h2>Welcome to Comic Creator</h2>
+<style>
+    .scene-main-container {
+        padding: 50px 0;
+    }
 
-<div class="row">
-    <div class="col border">
-        <br /><br /><br />
-        <img src="#" alt="Image Here" class="col" />
-        <br /><br /><br />
+    .scene-garden {
+        background-image: url('../Content/img/scenarios/garden.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 150px 0;
+    }
+
+    .scene-classroom {
+        background-image: url('../Content/img/scenarios/classroom.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 150px 0;
+    }
+
+    .scene-mall {
+        background-image: url('../Content/img/scenarios/mall.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 150px 0;
+    }
+</style>
+
+<div class="container-fluid no-gutter">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col">
+                <h1>Do you want to create your own comics?</h1>
+                <h4 class="disabled">Just follow these easy steps!</h4>
+            </div>
+        </div>
     </div>
 </div>
-
-<div class="container">
+<div class="container scene-main-container">
     <div class="row">
         <div class="col">
-            <h4>Want to create your own comics?</h4>
+            <h4>Step 1: Choose a scenario</h4>
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            <h4>Choose a scenario</h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col border">
-            <br /><br />
-            <a href="@Url.Action("Index", "Creator", new { scenarioID = 1 })">
-                <img src="#" alt="Scenario 1" class="col" />
+        <div class="col-lg-4 border card scene-garden">
+            <a href="@Url.Action("PanelCount", "Creator", new { scenarioID = 1 })">
+                Garden
             </a>
-            <br /><br />
         </div>
-        <div class="col border">
-            <br /><br />
-            <a href="@Url.Action("Index", "Creator", new { scenarioID = 2 })">
-                <img src="#" alt="Scenario 2" class="col" />
+        <div class="col-lg-4 border card scene-classroom">
+            <a href="@Url.Action("PanelCount", "Creator", new { scenarioID = 2 })">
+                Classroom
             </a>
-            <br /><br />
         </div>
-        <div class="col border">
-            <br /><br />
-            <a href="@Url.Action("Index", "Creator", new { scenarioID = 3 })">
-                <img src="#" alt="Scenario 3" class="col" />
+        <div class="col-lg-4 border card scene-mall">
+            <a href="@Url.Action("PanelCount", "Creator", new { scenarioID = 3 })">
+                Mall
             </a>
-            <br /><br />
         </div>
     </div>
 </div>
