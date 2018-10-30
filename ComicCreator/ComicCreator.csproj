@@ -143,7 +143,6 @@
     <Content Include="Content\img\dialog2.png" />
     <Content Include="Content\img\imgpeople1.png" />
     <Content Include="Content\img\imgpeople2.png" />
-<<<<<<< HEAD
     <Content Include="Content\img\leftdialog-pointer.png" />
     <Content Include="Content\img\leftdialog.png" />
     <Content Include="Content\img\middialog-pointer.png" />
@@ -154,11 +153,9 @@
     <Content Include="Content\img\midrightdialog.png" />
     <Content Include="Content\img\rightdialog-pointer.png" />
     <Content Include="Content\img\rightdialog.png" />
-=======
     <Content Include="Content\img\scenarios\classroom.jpg" />
     <Content Include="Content\img\scenarios\garden.jpg" />
     <Content Include="Content\img\scenarios\mall.jpg" />
->>>>>>> 3b43df68e7e5b65ba7cdb5c2dc86a2c3bc28c843
     <Content Include="Content\img\scene1.jpg" />
     <Content Include="Content\img\scene2.jpg" />
     <Content Include="Content\js\bootstrap.bundle.js" />
