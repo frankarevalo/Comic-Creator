@@ -96,6 +96,15 @@
         font-size: 1em;
     }
 
+    .removebtnStyle{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+
     .ui-resizable-helper{
         border: 2px dotted black;
     }
@@ -150,6 +159,8 @@
 }
 </style>
 
+
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -172,7 +183,26 @@
 <br />
 <br />
 
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
 <script>
+
+    
+
+
+
+
+
+
+
+
 
     function PopupMenu(e)
     {
@@ -188,6 +218,7 @@
         var imgid = $(e).find('img').attr('id');
         var divholder = document.getElementById("dh" + name);
         var nImgId = imgid + "_" + name;
+        var nRmvImgId = "rmv_img_" + imgid + "_" + name;
         var nDivId = "div_" + imgid + "_" + name;
 
         // check if img already exist
@@ -208,6 +239,26 @@
 
             ddiv.append(dimg);
             divholder.append(ddiv);
+            
+            // this is for remove element right click function
+            $("#" + nRmvImgId).hide();
+            $("#" + nImgId).bind('contextmenu', function (e) {
+                return false;
+            });
+            $("#" + nImgId).mousedown(function (event) {
+                switch (event.which){
+                    case 3:
+                        //$("#" + nRmvImgId).toggle();
+
+                        var rmvMsg = confirm("Do you want to delete the image?");
+                        if (rmvMsg == true) {
+                            $("#" + nDivId).remove();
+                            $("#" + nImgId).remove();
+                        }
+                        break;
+                }
+            });
+            // end for remove element right click function
 
             $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 300, maxWidth: 300, minHeight: 120, minWidth: 120 });
             $("#" + nDivId).draggable({ containment: divholder });
