@@ -74,7 +74,12 @@ namespace ComicCreator.Controllers
             switch (scenarioID)
             {
                 case 1:
-                    string[] scenarioImageList = { "../Content/img/dialog1.png", "../Content/img/dialog2.png" };
+                    string[] scenarioImageList = { "../Content/img/leftdialog.png", 
+                                                   "../Content/img/midleftdialog.png",
+                                                   "../Content/img/middialog.png",
+                                                   "../Content/img/rightdialog.png",
+                                                   "../Content/img/midrightdialog.png"
+                                                 };
                     imgCount = scenarioImageList.GetLength(0);
                     break;
             }
@@ -96,17 +101,32 @@ namespace ComicCreator.Controllers
         }
 
         [NonAction]
-        public string GetScenarioDialogImageContextUrl(int scenarioID, int index)
+        public string GetPropValueForDialog(int categoryID, int index, int panelIndex = 0)
         {
-            string imgUrl = string.Empty;
-            switch (scenarioID)
+            string result = string.Empty;
+            switch (categoryID)
             {
-                case 1:
-                    string[] scenarioImageContextList = { "../Content/img/dialog1.png", "../Content/img/dialog2.png" };
-                    imgUrl = scenarioImageContextList[index - 1];
+                case 1: // img url
+                    string[] scenarioImageContextList = { "../Content/img/leftdialog.png", 
+                                                          "../Content/img/midleftdialog.png",
+                                                          "../Content/img/middialog.png",
+                                                          "../Content/img/rightdialog.png",
+                                                          "../Content/img/midrightdialog.png" 
+                                                        };
+                    result = scenarioImageContextList[index - 1];
+                    break;
+
+                case 2: // img dynamic id, arrangement based on case 1
+                    string[] scenarioDynamicId = { "leftdialog", 
+                                                   "midleftdialog",
+                                                   "middialog",
+                                                   "rightdialog",
+                                                   "midrightdialog" 
+                                                 };
+                    result = scenarioDynamicId[index - 1] + "_" + panelIndex.ToString().Trim() + "_1"; // _1 kasi unang add palang
                     break;
             }
-            return imgUrl;
+            return result;
         }
 
         #region "Dynamic Creation of Controls"
@@ -151,7 +171,7 @@ namespace ComicCreator.Controllers
                         // image background 
                         writer.AddAttribute(HtmlTextWriterAttribute.Class, "pnlimage");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "imgpnlback" + scenarioID);
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "imgpnlback" + p);
                         writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioUrlImage(scenarioID, 1));
                         writer.RenderBeginTag(HtmlTextWriterTag.Img);
 
@@ -169,7 +189,7 @@ namespace ComicCreator.Controllers
                         #region "add people button"
 
                         // add people
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                         writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_p_" + p);
@@ -192,14 +212,14 @@ namespace ComicCreator.Controllers
                             // div
                             writer.AddAttribute(HtmlTextWriterAttribute.Class, "col");
                             writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddPeople(this)");
-                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_p_div" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_p_div_" + p.ToString().Trim() + "_" + i.ToString().Trim());
                             writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
                             // image
                             writer.AddAttribute(HtmlTextWriterAttribute.Class, "imgContext");
                             writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddPeople(this)");
-                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_p_" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_p_" + p.ToString().Trim() + "_" + i.ToString().Trim());
                             writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                             writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioPeopleImageContextUrl(scenarioID, i));
                             writer.RenderBeginTag(HtmlTextWriterTag.Img);
@@ -216,7 +236,7 @@ namespace ComicCreator.Controllers
                         #region "add dialog button"
 
                         // add dialog
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                         writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_d_" + p);
@@ -246,9 +266,56 @@ namespace ComicCreator.Controllers
                             // image
                             writer.AddAttribute(HtmlTextWriterAttribute.Class, "imgContext");
                             writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddDialog(this)");
-                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_d_" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, GetPropValueForDialog(2, i, p));
                             writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
-                            writer.AddAttribute(HtmlTextWriterAttribute.Src, GetScenarioDialogImageContextUrl(scenarioID, i));
+                            writer.AddAttribute(HtmlTextWriterAttribute.Src, GetPropValueForDialog(scenarioID, i));
+                            writer.RenderBeginTag(HtmlTextWriterTag.Img);
+
+                            writer.RenderEndTag(); // end for image
+                            writer.RenderEndTag(); // end for div
+                        }
+
+                        writer.RenderEndTag(); // end for row
+                        writer.RenderEndTag(); // end for add dialog div
+
+                        #endregion
+
+                        #region "change background button"
+
+                        // add dialog
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnchng_bck_" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        writer.Write("Change Background");
+
+                        // add dialog : popup
+                        // row
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row popuptext");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_chngbck_row" + p);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                        // get total count of image
+                        TotalImageCount = GetScenarioDialogImageContextCount(scenarioID);
+
+                        for (int i = 1; i <= TotalImageCount; i++)
+                        {
+                            // div
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, "col");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddDialog(this)");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "popupmenu_chngbck_div" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                            // image
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, "imgContext");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "AddDialog(this)");
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, "cimg_chngbck_" + i.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                            writer.AddAttribute(HtmlTextWriterAttribute.Src, GetPropValueForDialog(scenarioID, i));
                             writer.RenderBeginTag(HtmlTextWriterTag.Img);
 
                             writer.RenderEndTag(); // end for image

@@ -49,19 +49,60 @@
 
     .createdDialogDivStyle
     {
-        width: 40%; 
-        height: 30%; 
-        border: 1px solid black;
+        background: white;
+        border: 3px solid black;
+        border-radius: 20px;
+        padding: 15px;
+        width: auto; 
+        height: auto;
+        min-width: 30%;
+        min-height: 30%;
+        max-height: 50%;
+        max-width: 50%;
         position: absolute; 
         top: 40%; 
         left: 10%; 
         text-align: center;
         z-index: 1;
+        margin: 0;
     }
 
     .createdImgDivStyle:hover, .createdDialogDivStyle:hover
     {
         cursor: move;
+    }
+
+    .dynamicImgDialog
+    {
+        position: absolute;
+        top: -100px; 
+        left: -200px;
+        width: 210%; 
+        height: 210%; 
+    }
+
+    .dynamicTxtAreaStyle
+    {
+        position: relative;
+        top: 0;
+        margin: 0;
+        border: none; 
+        resize: none; 
+        width: 100%; 
+        outline: none; 
+        height: 100% auto;
+        max-height: 200px;
+        overflow: hidden; 
+        font-size: 1em;
+    }
+
+    .removebtnStyle{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
     }
 
     .ui-resizable-helper{
@@ -118,6 +159,8 @@
 }
 </style>
 
+
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -140,7 +183,26 @@
 <br />
 <br />
 
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
 <script>
+
+    
+
+
+
+
+
+
+
+
 
     function PopupMenu(e)
     {
@@ -156,24 +218,51 @@
         var imgid = $(e).find('img').attr('id');
         var divholder = document.getElementById("dh" + name);
         var nImgId = imgid + "_" + name;
+        var nRmvImgId = "rmv_img_" + imgid + "_" + name;
         var nDivId = "div_" + imgid + "_" + name;
 
-        // create div first
-        var ddiv = document.createElement("div");
-        ddiv.setAttribute("id", nDivId);
-        ddiv.setAttribute("class", "createdImgDivStyle");
+        // check if img already exist
+        var checkImgId = document.getElementById(nImgId);
+        if (checkImgId) {
+            alert("Person Already Used!");
+        } else {
+            // create div first
+            var ddiv = document.createElement("div");
+            ddiv.setAttribute("id", nDivId);
+            ddiv.setAttribute("class", "createdImgDivStyle");
 
-        // create img
-        var dimg = document.createElement("img");
-        dimg.setAttribute("src", src);
-        dimg.setAttribute("id", nImgId);
-        dimg.setAttribute("style", "width: 100%; height: 100%;");
+            // create img
+            var dimg = document.createElement("img");
+            dimg.setAttribute("src", src);
+            dimg.setAttribute("id", nImgId);
+            dimg.setAttribute("style", "width: 100%; height: 100%;");
 
-        ddiv.append(dimg);
-        divholder.append(ddiv);
+            ddiv.append(dimg);
+            divholder.append(ddiv);
+            
+            // this is for remove element right click function
+            $("#" + nRmvImgId).hide();
+            $("#" + nImgId).bind('contextmenu', function (e) {
+                return false;
+            });
+            $("#" + nImgId).mousedown(function (event) {
+                switch (event.which){
+                    case 3:
+                        //$("#" + nRmvImgId).toggle();
 
-        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 300, maxWidth: 300, minHeight: 120, minWidth: 120 });
-        $("#" + nDivId).draggable({ containment: divholder });
+                        var rmvMsg = confirm("Do you want to delete the image?");
+                        if (rmvMsg == true) {
+                            $("#" + nDivId).remove();
+                            $("#" + nImgId).remove();
+                        }
+                        break;
+                }
+            });
+            // end for remove element right click function
+
+            $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 300, maxWidth: 300, minHeight: 120, minWidth: 120 });
+            $("#" + nDivId).draggable({ containment: divholder });
+        }
     }
 
     function AddDialog(e)
@@ -182,9 +271,11 @@
         var name = $(e).find('img').attr('name');
         var imgid = $(e).find('img').attr('id');
         var divholder = document.getElementById("dh" + name);
-        var nTxtId = "txt" + imgid + "_" + name;
-        var nImgId = "img" + imgid + "_" + name;
-        var nDivId = "div_" + imgid + "_" + name;
+        var nTxtId = "txt_d" + "_" + name;
+        var nDivId = "div_d" + "_" + name;
+
+        // check if id exist, if exist add increment to id
+
 
         // create div first
         var ddiv = document.createElement("div");
@@ -195,25 +286,26 @@
         var dimg = document.createElement("img");
         dimg.setAttribute("id", nImgId);
         dimg.setAttribute("src", src);
-        dimg.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; position: absolute;");
+        dimg.setAttribute("class", "dynamicImgDialog");
 
         // create textarea
         var dtxt = document.createElement("textarea");
         dtxt.setAttribute("id", nTxtId);
-        dtxt.setAttribute("maxlength", "30");
-        dtxt.setAttribute("style", "border: 1px solid black; width: 60%; height: auto; top: 20%; overflow: hidden; position: relative;");
-        dtxt.addEventListener("keydown", textareaAutosize(dtxt));
+        dtxt.setAttribute("maxlength", "100");
+        dtxt.setAttribute("class", "dynamicTxtAreaStyle");
+        //dtxt.addEventListener("keydown", textareaAutosize(dtxt));
 
-        ddiv.append(dimg);
+        //ddiv.append(dimg);
         ddiv.append(dtxt);
         divholder.append(ddiv);
 
-        $("#" + nDivId).resizable({ aspectRatio: true, autohide: true, animate: true, maxHeight: 400, maxWidth: 400, minHeight: 120, minWidth: 120 });
+        $("#" + nDivId).resizable({ autohide: true, animate: true });
         $("#" + nDivId).draggable({ containment: divholder });
-        $("#" + nTxtId).autogrow();
+        $("#" + nTxtId).autogrow({vertical: true, horizontal: false});
     }
 
     function textareaAutosize(t) {
+        //alert(t.scrollHeight);
         //alert($(e).find('img').attr('name'));
         //t.height(this.scrollHeight);
         //txt.css({ "height": txt.scrollHeight + "px" });
@@ -225,3 +317,4 @@
 
 <script src="../Content/js/jquery-1.12.4.js"></script>
 <script src="../Content/js/jquery-ui.js"></script>
+<script src="../Content/js/jquery.ns-autogrow.min.js"></script>
