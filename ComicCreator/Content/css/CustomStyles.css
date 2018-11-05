@@ -4,3 +4,8 @@
 .no-gutter {
 padding: 0px;
 }
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
