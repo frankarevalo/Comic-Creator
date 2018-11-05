@@ -162,8 +162,13 @@ namespace ComicCreator.Controllers
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "pnl" + p);
                         writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
+                        // div row
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row justify-content-center");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
                         // div holder 
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "dmDivHolder");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "dmDivHolder col-11");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "dh" + p);
                         writer.RenderBeginTag(HtmlTextWriterTag.Div);
@@ -177,19 +182,32 @@ namespace ComicCreator.Controllers
 
                         writer.RenderEndTag(); // end for image background 
                         writer.RenderEndTag(); // end for div holder 
+                        writer.RenderEndTag(); // end for div row 
 
-                        // for buttons :: Add People, Add Dialog and Delete Panel
+                        // for buttons :: Add People, Add Dialog and Change Background
 
                         // row for btns
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row justify-content-center");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "rowforbtn" + p);
                         writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
+                        // col-11 for btns
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-11");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+
                         #region "add people button"
 
+                        // main div for buttons below
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "row");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+
                         // add people
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark btn-cust-style");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                         writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_p_" + p);
@@ -236,7 +254,7 @@ namespace ComicCreator.Controllers
                         #region "add dialog button"
 
                         // add dialog
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark btn-cust-style");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                         writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnadd_d_" + p);
@@ -283,7 +301,7 @@ namespace ComicCreator.Controllers
                         #region "change background button"
 
                         // add dialog
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark");
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "col-4 popup btn-dark btn-cust-style");
                         writer.AddAttribute(HtmlTextWriterAttribute.Name, p.ToString().Trim());
                         writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "PopupMenu(this)");
                         writer.AddAttribute(HtmlTextWriterAttribute.Id, "btnchng_bck_" + p);
@@ -327,7 +345,9 @@ namespace ComicCreator.Controllers
 
                         #endregion
 
+                        writer.RenderEndTag(); // end for col-11 for btns
                         writer.RenderEndTag(); // end for row for btns
+                        writer.RenderEndTag(); // end for ?????
                         writer.RenderEndTag(); // end for panel 
 
                         p += 1;
