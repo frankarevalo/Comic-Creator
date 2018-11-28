@@ -51,13 +51,14 @@
     .createdDialogDivStyle
     {
         background: white;
-        border: 3px solid black;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px black;
         border-radius: 20px;
         padding: 15px;
         width: auto; 
         height: auto;
         min-width: 30%;
-        min-height: 30%;
+        min-height: 20%;
         max-height: 50%;
         max-width: 50%;
         position: absolute; 
@@ -92,7 +93,7 @@
         width: 100%; 
         outline: none; 
         height: 100% auto;
-        max-height: 200px;
+        /*max-height: 200px;*/
         overflow: hidden; 
         font-size: 1em;
     }
@@ -272,17 +273,24 @@
         // trimmed id
         var trimmedId = imgid.substr(0, imgid.indexOf('_'));
 
+        // pointer img name
+        var pointerImg = trimmedId + "-pointer.png";
+
         // check if id exist, if exist add increment to id
         var isValid = false;
 
         // declaring a unique element id
         var nTxtId = "";
         var nDivId = "";
-
+        var nDivOverHide = "";
+        var nImgPointerId = "";
+        
         var i = 1;
         while (!isValid) {
-            var nTxtId = "txt_d" + "_" + name + "_" + i + "_" + trimmedId;
-            var nDivId = "div_d" + "_" + name + "_" + i + "_" + trimmedId;
+            nTxtId = "txt_d" + "_" + name + "_" + i + "_" + trimmedId;
+            nDivId = "div_d" + "_" + name + "_" + i + "_" + trimmedId;
+            nDivOverHide = "div_ovfhide" + "_" + name + "_" + i + "_" + trimmedId;
+            nImgPointerId = "img_point" + "_" + name + "_" + i + "_" + trimmedId;
             // check if element id exist
             var checkElemId = document.getElementById(nTxtId);
             if (!checkElemId) {
@@ -296,11 +304,10 @@
         ddiv.setAttribute("id", nDivId);
         ddiv.setAttribute("class", "createdDialogDivStyle");
         
-        // create img
-        var dimg = document.createElement("img");
-        dimg.setAttribute("id", nImgId);
-        dimg.setAttribute("src", src);
-        dimg.setAttribute("class", "dynamicImgDialog");
+        // create div overflow hidden
+        var ddivoverhide = document.createElement("div");
+        ddivoverhide.setAttribute("id", nDivOverHide);
+        ddivoverhide.setAttribute("style", "width: 100%; height: 100%; overflow: hidden; padding: 0; margin: 0;");
 
         // create textarea
         var dtxt = document.createElement("textarea");
@@ -309,11 +316,63 @@
         dtxt.setAttribute("class", "dynamicTxtAreaStyle");
         //dtxt.addEventListener("keydown", textareaAutosize(dtxt));
 
-        //ddiv.append(dimg);
-        ddiv.append(dtxt);
+        // pointer img
+        var dimg = document.createElement("img");
+        dimg.setAttribute("id", nImgPointerId);
+        dimg.setAttribute("src", "../Content/img/" + pointerImg);
+
+        // pointer img style
+        switch (trimmedId) {
+            case "leftdialog":
+                dimg.setAttribute("style", "position: absolute; top: 99%; left: 10%; height: 23%; width: 12%;");
+                break;
+            case "midleftdialog":
+                dimg.setAttribute("style", "position: absolute; top: 99%; left: 27%; height: 23%; width: 12%;");
+                break;
+            case "rightdialog":
+                dimg.setAttribute("style", "position: absolute; top: 99%; right: 10%; height: 23%; width: 12%;");
+                break;
+            case "midrightdialog":
+                dimg.setAttribute("style", "position: absolute; top: 99%; right: 27%; height: 23%; width: 12%;");
+                break;
+            case "middialog":
+                dimg.setAttribute("style", "position: absolute; top: 99%; left: 43%; height: 23%; width: 12%;");
+                break;
+            default:
+                dimg.setAttribute("style", "position: absolute; top: 99%; left: 10%; height: 23%; width: 12%;");
+                break;
+        }
+
+        ddivoverhide.append(dtxt);
+        ddiv.append(dimg);
+        ddiv.append(ddivoverhide);
         divholder.append(ddiv);
 
-        $("#" + nDivId).resizable({ autohide: true, animate: true });
+        // this is for remove element right click function
+        $("#" + nTxtId).bind('contextmenu', function (e) {
+            return false;
+        });
+        $("#" + nTxtId).mousedown(function (event) {
+            switch (event.which) {
+                case 3:
+                    //$("#" + nRmvImgId).toggle();
+
+                    var rmvMsg = confirm("Do you want to delete the image?");
+                    if (rmvMsg == true) {
+                        $("#" + nDivId).remove();
+                        $("#" + nTxtId).remove();
+                        $("#" + nImgPointerId).remove();
+                    }
+                    break;
+            }
+        });
+        // end for remove element right click function
+
+        $("#" + nDivId).resizable({
+            animate: false,
+            handles: 'all',
+            aspectRation: true
+        });
         $("#" + nDivId).draggable({ containment: divholder });
         $("#" + nTxtId).autogrow({vertical: true, horizontal: false});
     }
