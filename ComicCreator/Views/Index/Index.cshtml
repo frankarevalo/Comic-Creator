@@ -4,6 +4,16 @@
 }
 
 <style>
+    a:hover {
+        text-decoration: none;
+    }
+
+    h2 {
+        color: #fff;
+        text-decoration: none;
+        text-shadow: 1px 1px 15px #2d2d2d;
+    }
+
     .scene-main-container {
         padding: 50px 0;
     }
@@ -28,14 +38,23 @@
         background-position: center;
         padding: 150px 0;
     }
+
+    .scene-container {
+        height: 100%;
+        transition: .25s ease-in-out;
+        transform: scale(.95);
+    }
+
+        .scene-container:hover {
+            transform: scale(1);
+        }
 </style>
 
 <div class="container-fluid no-gutter">
     <div class="jumbotron">
         <div class="row">
             <div class="col">
-                <h1>Do you want to create your own comics?</h1>
-                <h4 class="disabled">Just follow these easy steps!</h4>
+                <h1>Sample text here...</h1>
             </div>
         </div>
     </div>
@@ -47,19 +66,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 border card scene-garden">
+        <div class="col-lg-4 border card scene-garden scene-container text-center">
             <a href="@Url.Action("PanelCount", "Creator", new { scenarioID = 1 })">
-                Garden
+                <h2>Garden</h2>
             </a>
         </div>
-        <div class="col-lg-4 border card scene-classroom">
+        <div class="col-lg-4 border card scene-classroom scene-container text-center">
             <a href="@Url.Action("PanelCount", "Creator", new { scenarioID = 2 })">
-                Classroom
+                <h2>Classroom</h2>
             </a>
         </div>
-        <div class="col-lg-4 border card scene-mall">
+        <div class="col-lg-4 border card scene-mall scene-container text-center">
             <a href="@Url.Action("PanelCount", "Creator", new { scenarioID = 3 })">
-                Mall
+                <h2>Mall</h2>
             </a>
         </div>
     </div>
