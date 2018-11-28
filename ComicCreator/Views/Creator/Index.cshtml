@@ -201,16 +201,6 @@
 
 <script>
 
-    
-
-
-
-
-
-
-
-
-
     function PopupMenu(e)
     {
         var btn = $(e).find('div').attr('id');
@@ -274,15 +264,32 @@
 
     function AddDialog(e)
     {
-        var src = $(e).find('img').attr('src');
+        // source
         var name = $(e).find('img').attr('name');
         var imgid = $(e).find('img').attr('id');
         var divholder = document.getElementById("dh" + name);
-        var nTxtId = "txt_d" + "_" + name;
-        var nDivId = "div_d" + "_" + name;
+        
+        // trimmed id
+        var trimmedId = imgid.substr(0, imgid.indexOf('_'));
 
         // check if id exist, if exist add increment to id
+        var isValid = false;
 
+        // declaring a unique element id
+        var nTxtId = "";
+        var nDivId = "";
+
+        var i = 1;
+        while (!isValid) {
+            var nTxtId = "txt_d" + "_" + name + "_" + i + "_" + trimmedId;
+            var nDivId = "div_d" + "_" + name + "_" + i + "_" + trimmedId;
+            // check if element id exist
+            var checkElemId = document.getElementById(nTxtId);
+            if (!checkElemId) {
+                isValid = true;
+            }
+            i += 1;
+        }
 
         // create div first
         var ddiv = document.createElement("div");
